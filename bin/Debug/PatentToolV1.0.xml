@@ -1,0 +1,89 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+PatentToolV1.0
+</name>
+</assembly>
+<members>
+<member name="T:PatentToolV1._0.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:PatentToolV1._0.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:PatentToolV1._0.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:PatentToolV1._0.ThisRibbonCollection">
+
+</member>
+<member name="M:PatentToolV1._0.ThisRibbonCollection.#ctor(Microsoft.Office.Tools.Ribbon.RibbonFactory)">
+
+</member>
+<member name="T:PatentToolV1._0.ThisAddIn">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.#ctor(Microsoft.Office.Tools.Word.ApplicationFactory,System.IServiceProvider)">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.Initialize">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.FinishInitialization">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.InitializeDataBindings">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.InitializeCachedData">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.InitializeData">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.BindToData">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.StartCaching(System.String)">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.StopCaching(System.String)">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.IsCached(System.String)">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.BeginInitialization">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.EndInitialization">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.InitializeControls">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.InitializeComponents">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.NeedsFill(System.String)">
+
+</member>
+<member name="M:PatentToolV1._0.ThisAddIn.OnShutdown">
+
+</member>
+<member name="T:PatentToolV1._0.Globals">
+
+</member>
+<member name="M:PatentToolV1._0.Globals.#ctor">
+
+</member>
+</members>
+</doc>

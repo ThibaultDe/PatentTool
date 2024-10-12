@@ -1,0 +1,129 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|c:\\users\\condorcet06\\source\\repos\\patenttoolv1.0\\usercontrol1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|solutionrelative:usercontrol1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\usercontrol1.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|solutionrelative:usercontrol1.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\thisaddin.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|solutionrelative:thisaddin.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\ribbon1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|solutionrelative:ribbon1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\usercontrol1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|solutionrelative:usercontrol1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|PatentToolV1.3||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\ribbon1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{C8F351BB-9409-41C3-A381-FC34D7051342}|PatentToolV1.3.vbproj|solutionrelative:ribbon1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 100,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 305,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PatentToolV1.3",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\PatentToolV1.3.vbproj",
+              "RelativeDocumentMoniker": "PatentToolV1.3.vbproj",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\PatentToolV1.3.vbproj",
+              "RelativeToolTip": "PatentToolV1.3.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-10-04T11:36:45.753Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ThisAddIn.vb",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\ThisAddIn.vb",
+              "RelativeDocumentMoniker": "ThisAddIn.vb",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\ThisAddIn.vb",
+              "RelativeToolTip": "ThisAddIn.vb",
+              "ViewState": "AgIAANIAAAAAAAAAAAAQwN8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-04T11:16:11.766Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserControl1.vb",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\UserControl1.vb",
+              "RelativeDocumentMoniker": "UserControl1.vb",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\UserControl1.vb",
+              "RelativeToolTip": "UserControl1.vb",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAAAKEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-04T11:17:27.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserControl1.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\UserControl1.vb",
+              "RelativeDocumentMoniker": "UserControl1.vb",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\UserControl1.vb [Design]",
+              "RelativeToolTip": "UserControl1.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-04T11:17:08.808Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserControl1.Designer.vb",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\UserControl1.Designer.vb",
+              "RelativeDocumentMoniker": "UserControl1.Designer.vb",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\UserControl1.Designer.vb",
+              "RelativeToolTip": "UserControl1.Designer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-04T11:16:46.97Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Ribbon1.vb",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\Ribbon1.vb",
+              "RelativeDocumentMoniker": "Ribbon1.vb",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\Ribbon1.vb",
+              "RelativeToolTip": "Ribbon1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-04T11:16:36.984Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Ribbon1.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\Ribbon1.vb",
+              "RelativeDocumentMoniker": "Ribbon1.vb",
+              "ToolTip": "C:\\Users\\Condorcet06\\source\\repos\\PatentToolV1.0\\Ribbon1.vb [Design]",
+              "RelativeToolTip": "Ribbon1.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-04T11:16:23.963Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
