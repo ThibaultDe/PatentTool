@@ -40,11 +40,10 @@ Public Class MyUserControl
 
         Dim ind = selectedIndex
         Dim Number = ListView1.Items(ind).SubItems(0).Text
-        Debug.Print(ind & " " & Number)
+
         While Number = ""
             ind = ind - 1
             Number = ListView1.Items(ind).SubItems(0).Text
-            Debug.Print(ind & " " & Number)
         End While
 
         'Dim RepText = SelectedRef + " (" + Number + ")"
@@ -74,6 +73,62 @@ Public Class MyUserControl
         End If
 
     End Sub
+
+
+    Private Sub Replace_All_Click(sender As Object, e As EventArgs) Handles Replace_All.Click
+        Dim DocRange = Globals.ThisAddIn.Application.ActiveDocument.Range
+        Dim RevRange As Object
+        Dim RevStart As Object
+
+        With DocRange.Find
+            .Text = "REVENDICATIONS"        'Cherche le texte en GRAS'
+            .Font.Bold = True
+            .Forward = False
+            .Execute()
+        End With
+
+        If DocRange.Find.Found = True Then
+            System.Diagnostics.Debug.WriteLine("Revendications Start trouvé ")
+            RevStart = DocRange.Start
+        Else
+            MsgBox("Revendications non trouvées")
+        End If
+
+        RevRange = Globals.ThisAddIn.Application.ActiveDocument.Range(RevStart, Globals.ThisAddIn.Application.ActiveDocument.Range.End)
+
+        Dim ind = selectedIndex
+        Dim Number = ListView1.Items(ind).SubItems(0).Text
+
+        While Number = ""
+            ind = ind - 1
+            Number = ListView1.Items(ind).SubItems(0).Text
+        End While
+
+        With RevRange.Find
+            .Text = SelectedRef
+            .Replacement.Text = SelectedRef + " (" + Number + ")"
+            .Forward = True
+            .MatchCase = False
+
+            ' Remplacer toutes les occurrences
+            .Execute(Replace:=Word.WdReplace.wdReplaceAll)
+        End With
+
+        With RevRange.Find
+            .Text = SelectedRef + " (" + Number + ")"
+            .Font.Italic = False
+            .Replacement.Text = ""
+            .Forward = True
+            .Wrap = Word.WdFindWrap.wdFindStop
+
+            Do While .Execute
+                RevRange.Font.Italic = True
+            Loop
+        End With
+
+    End Sub
+
+
 
     Private Sub FindRefs_Click_1(sender As Object, e As EventArgs) Handles FindRefs.Click
         ListView1.Items.Clear()
@@ -158,6 +213,8 @@ Public Class MyUserControl
         ListView1.OwnerDraw = True
         ListView1.FullRowSelect = False
     End Sub
+
+
     '------------------------------------------------------------------------------------------'
 
 End Class

@@ -27,13 +27,14 @@ Partial Class MyUserControl
         Me.ListView1 = New System.Windows.Forms.ListView()
         Me.Number = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Text = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.Replace_All = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Replace
         '
-        Me.Replace.Location = New System.Drawing.Point(86, 725)
+        Me.Replace.Location = New System.Drawing.Point(3, 725)
         Me.Replace.Name = "Replace"
-        Me.Replace.Size = New System.Drawing.Size(163, 23)
+        Me.Replace.Size = New System.Drawing.Size(165, 23)
         Me.Replace.TabIndex = 2
         Me.Replace.Text = "Replace"
         Me.Replace.UseVisualStyleBackColor = True
@@ -57,10 +58,20 @@ Partial Class MyUserControl
         Me.ListView1.TabIndex = 4
         Me.ListView1.UseCompatibleStateImageBehavior = False
         '
+        'Replace_All
+        '
+        Me.Replace_All.Location = New System.Drawing.Point(174, 725)
+        Me.Replace_All.Name = "Replace_All"
+        Me.Replace_All.Size = New System.Drawing.Size(156, 23)
+        Me.Replace_All.TabIndex = 5
+        Me.Replace_All.Text = "Replace All"
+        Me.Replace_All.UseVisualStyleBackColor = True
+        '
         'MyUserControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.Replace_All)
         Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.FindRefs)
         Me.Controls.Add(Me.Replace)
@@ -74,4 +85,5 @@ Partial Class MyUserControl
     Friend WithEvents ListView1 As Windows.Forms.ListView
     Friend WithEvents Number As Windows.Forms.ColumnHeader
     Friend WithEvents Text As Windows.Forms.ColumnHeader
+    Friend WithEvents Replace_All As Windows.Forms.Button
 End Class
