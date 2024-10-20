@@ -1,13 +1,15 @@
-﻿Imports System.Windows.Controls
+﻿Imports System.Diagnostics
 Imports System.Windows.Forms
+Imports Microsoft.Office.Interop.Word
+Imports System.Windows.Controls
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Tab
 Imports System.Windows.Input
 Imports System.Linq
 Imports System.Collections.Generic
 Imports System.Drawing
-Imports System.Diagnostics
 Imports Word = Microsoft.Office.Interop.Word
 Imports System.Drawing.Text
+
 
 Public Class MyUserControl
 
@@ -16,6 +18,42 @@ Public Class MyUserControl
     Private selectedIndex As Integer
     Private SelectedRef As String
     Private currentRange As Word.Range
+
+
+
+    ' ESSAYER AVEC UN AUTRE EVENEMENT '
+    'Private WithEvents wordApp As Microsoft.Office.Interop.Word.Application
+
+    'Public Sub New(wordApp As Word.Application)
+    '    InitializeComponent()
+    '    Me.wordApp = wordApp
+
+    '    If Me.wordApp Is Nothing Then
+    '        MsgBox("Application Word non disponible.") 'A SUPPRIMER QUAND CA MARCHERA
+    '    End If
+
+    'End Sub
+
+    'Private Sub wordApp_WindowSelectionChange(ByVal Sel As Word.Selection) Handles wordApp.WindowSelectionChange
+    '    Threading.Thread.Sleep(100) ' Pause de 100 ms
+    '    Debug.Print("AAAA")
+    '    Debug.Print("Sélection actuelle : " & Sel.Range.Text)
+    '    Dim currentWord As String = GetLastWord(Sel)
+    '    Debug.Print(currentWord)
+    '    If IsNumeric(currentWord) Then
+    '        MsgBox("Vous avez tapé un nombre : " & currentWord)
+    '    End If
+    'End Sub
+
+    'Private Function GetLastWord(ByVal selection As Word.Selection) As String
+    '    If selection.Type = Word.WdSelectionType.wdSelectionNormal AndAlso selection.Text.Length > 0 Then
+    '        Dim words As String() = selection.Text.Trim().Split(" "c)
+    '        Return words(words.Length - 1) ' Retourne le dernier mot tapé
+    '    End If
+
+    '    Return String.Empty
+    'End Function
+
 
     Private Sub Replace_Click(sender As Object, e As EventArgs) Handles Replace.Click
         Dim DocRange = Globals.ThisAddIn.Application.ActiveDocument.Range
