@@ -30,7 +30,7 @@ Public Class ThisAddIn
 
     Public Function CleanString(ByVal input As String) As String
         ' Remplacer les caractères indésirables par une chaîne vide
-        Return input.Replace(vbCr, " ").Replace(vbLf, " ").Replace(vbCrLf, " ").Replace("’", "'").Replace(",", "").Replace(".", "").Replace(";", "").Trim()
+        Return input.Replace(vbCr, " ").Replace(vbLf, " ").Replace(vbCrLf, " ").Replace("’", "'").Replace(",", "").Replace(".", "").Replace(";", "").Replace("l'", "l ").Trim()
     End Function
 
     Public Function ClearDuplicates(ByRef RefDict As Object) As Object
@@ -112,7 +112,7 @@ Public Class ThisAddIn
         Dim NumDict = CreateObject("Scripting.Dictionary")
 
         Dim ExeptionArray = New String() {"figure", "fig", "figures", "et", "ou", "environ", "d'environ", "moins", "exemple", "de", "entre", "=", "+", "-", "{", "[", ";", ",", "."}
-        Dim DeterminantsArray = New String() {",", ";", "le", "la", "au", "l'", "les", "ce", "cette", "ces", "son", "sa", "ses", "leur", "leurs", "un", "une", "qu'un", "qu'une", "d'une", "d'un", "du", "des", "et", "chaque", "plusieurs", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "vingt"}
+        Dim DeterminantsArray = New String() {",", ";", "le", "la", "au", "l", "les", "ce", "cette", "ces", "son", "sa", "ses", "leur", "leurs", "un", "une", "qu'un", "qu'une", "d'une", "d'un", "du", "des", "et", "chaque", "plusieurs", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "vingt"}
         Dim ValNumArray = New String() {"que", "entre", "à", "et"}
 
         Dim N As Object
@@ -140,42 +140,28 @@ Public Class ThisAddIn
                     If Not inArray(ValNumArray, PotentialRef) Then 'et n'existe pas encore, on la crée
                         Dim Ref = New String() {" ", " ", " ", " ", " ", " "} 'Taille maximale : 6 mots => Permet d'éviter des bugs avec des Références trop longues
 
-                        If PotentialRef.StartsWith("l'", StringComparison.OrdinalIgnoreCase) Then '=> Cas particulier pour gérer les mots en "l'"
-                            Ref(5) = Right(PotentialRef, (Len(PotentialRef) - 2))
-                        Else
-
-                            Ref(5) = PotentialRef 'Remplis la référence en commencçant par son dernier mot
-                            For k = 2 To 6 Step 1 'remonte la référence en regardant les mots précédents, jusqu'à tomber sur un déterminant.
-                                Dim RefWord As String = wordsArray(i - k)
-
-                                If (Not (IsNumeric(RefWord)) And Not inArray(DeterminantsArray, RefWord)) Then
-                                    If RefWord.StartsWith("l'", StringComparison.OrdinalIgnoreCase) Then  '=> Cas particulier pour gérer les mots en "l'"
-                                        Ref(6 - k) = Right(RefWord, (Len(RefWord) - 2))
-                                        Exit For
-                                    Else
-                                        Ref(6 - k) = RefWord
-                                    End If
-                                Else
-                                    Exit For
-                                End If
-                            Next k
-                        End If
-
+                        Ref(5) = PotentialRef 'Remplis la référence en commencçant par son dernier mot
+                        For k = 2 To 6 Step 1 'remonte la référence en regardant les mots précédents, jusqu'à tomber sur un déterminant.
+                            Dim RefWord As String = wordsArray(i - k)
+                            If (Not (IsNumeric(RefWord)) And Not inArray(DeterminantsArray, RefWord)) Then
+                                Ref(6 - k) = RefWord
+                            Else
+                                Exit For
+                            End If
+                        Next k
 
                         Dim refText As String = Trim(Join(Ref))   'Concatène la ref complète'
 
-                        If (Len(refText) > 0) Then 'A TESTER => EST-CE ENCORE UTILE ?"
-                            If (Not RefDict.Exists(refText)) Then          'Si cette référence textuelle n'existe pas encore, la crée et lui associe le numéro de référence'
-                                Dim numArray = New String() {PotentialNum}
-                                RefDict.Add(Key:=refText, Item:=numArray)
+                        If (Not RefDict.Exists(refText)) Then          'Si cette référence textuelle n'existe pas encore, la crée et lui associe le numéro de référence'
+                            Dim numArray = New String() {PotentialNum}
+                            RefDict.Add(Key:=refText, Item:=numArray)
 
-                            ElseIf ((RefDict.Exists(refText)) And (Not inArray(RefDict(refText), PotentialNum))) Then 'Si cette référence existe avec un numéro différent, ajoute ce numéro à la référence'
-                                Dim numArray = RefDict(refText)
-                                N = UBound(numArray) + 1
-                                ReDim Preserve numArray(N)
-                                numArray(UBound(numArray)) = PotentialNum
-                                RefDict(refText) = numArray
-                            End If
+                        ElseIf ((RefDict.Exists(refText)) And (Not inArray(RefDict(refText), PotentialNum))) Then 'Si cette référence existe avec un numéro différent, ajoute ce numéro à la référence'
+                            Dim numArray = RefDict(refText)
+                            N = UBound(numArray) + 1
+                            ReDim Preserve numArray(N)
+                            numArray(UBound(numArray)) = PotentialNum
+                            RefDict(refText) = numArray
                         End If
                     End If
                 End If
