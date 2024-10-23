@@ -30,7 +30,7 @@ Public Class ThisAddIn
 
     Public Function CleanString(ByVal input As String) As String
         ' Remplacer les caractères indésirables par une chaîne vide
-        Return input.Replace(vbCr, " ").Replace(vbLf, " ").Replace(vbCrLf, " ").Replace("’", "'").Replace(",", "").Replace(".", "").Replace(";", "").Replace("l'", "l ").Trim()
+        Return input.Replace(vbCr, " ").Replace(vbLf, " ").Replace(vbCrLf, " ").Replace("’", "'").Replace(",", "").Replace(".", "").Replace(";", "").Replace("l'", "l ").Replace("(", "").Replace(")", "").Trim()
     End Function
 
     Public Function ClearDuplicates(ByRef RefDict As Object) As Object
@@ -88,8 +88,18 @@ Public Class ThisAddIn
         If myRange.Find.Found = True Then
             DescriptionEnd = myRange.Start
         Else
-            MsgBox("Revendications non trouvées")
-            Return (Nothing)
+            myRange = Globals.ThisAddIn.Application.ActiveDocument.Range
+            With myRange.Find
+                .Text = "CLAIMS"        'Cherche le texte en GRAS'
+                .Font.Bold = True
+                .Forward = False
+                .Execute()
+            End With
+            If myRange.Find.Found = True Then
+                DescriptionEnd = myRange.Start
+            Else
+                DescriptionEnd = Globals.ThisAddIn.Application.ActiveDocument.Range.End
+            End If
         End If
 
         DescriptionRange = Globals.ThisAddIn.Application.ActiveDocument.Range(DescriptionStart, DescriptionEnd)
@@ -106,18 +116,24 @@ Public Class ThisAddIn
     End Function
 
 
-    Function NumRefs()
+
+    Function NumRefs(Language As String)
 
         Dim RefDict = CreateObject("Scripting.Dictionary")
         Dim NumDict = CreateObject("Scripting.Dictionary")
 
-        Dim ExeptionArray = New String() {"figure", "fig", "figures", "et", "ou", "environ", "d'environ", "moins", "exemple", "de", "entre", "=", "+", "-", "{", "[", ";", ",", "."}
-        Dim DeterminantsArray = New String() {",", ";", "le", "la", "au", "l", "les", "ce", "cette", "ces", "son", "sa", "ses", "leur", "leurs", "un", "une", "qu'un", "qu'une", "d'une", "d'un", "du", "des", "et", "chaque", "plusieurs", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "vingt"}
-        Dim ValNumArray = New String() {"que", "entre", "à", "et"}
+        Dim DeterminantsArray As Object
+        Dim ExeptionArray As Object
+
+        If Language = "en" Then
+            ExeptionArray = New String() {"figure", "fig", "figures", "and", "or", "about", "approximately", "less", "example", "of", "than", "to", "between", "=", "+", "-", "{", "[", ";", ",", "."}
+            DeterminantsArray = New String() {",", ";", "the", "a", "an", "this", "that", "these", "those", "his", "her", "its", "their", "my", "your", "our", "some", "any", "each", "every", "many", "several", "few", "more", "less", "most", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "twenty", "hundred", "thousand", "in", "on", "at", "with", "by", "for", "to", "from", "over", "under", "near", "between", "among", "through", "without", "before", "after", "about", "around", "behind", "above", "below", "next to", "beyond", "beside"}
+        Else Language = "fr"
+            ExeptionArray = New String() {"figure", "fig", "figures", "et", "ou", "environ", "d'environ", "moins", "exemple", "de", "que", "entre", "à", "=", "+", "-", "{", "[", ";", ",", "."}
+            DeterminantsArray = New String() {",", ";", "le", "la", "au", "l", "les", "ce", "cette", "ces", "son", "sa", "ses", "leur", "leurs", "un", "une", "qu'un", "qu'une", "d'une", "d'un", "du", "des", "et", "chaque", "plusieurs", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "vingt"}
+        End If
 
         Dim N As Object
-
-
 
         Dim DescriptionRange As Range = GetDescriptionRange() ' Réccupère le range de la description des figures
         If DescriptionRange Is Nothing Then
@@ -131,62 +147,59 @@ Public Class ThisAddIn
 
         For i = 3 To UBound(wordsArray) 'Itère sur l'ensemble des mots du texte
             Dim aWord As String = wordsArray(i)
-
             If (IsNumeric(aWord)) Then  ' Repère les références numériques
-                Dim PotentialNum As String = aWord
-                Dim PotentialRef As String = wordsArray(i - 1) 'Récupère le dernier mot de la Ref associée
+                    Dim PotentialNum As String = aWord
+                    Dim PotentialRef As String = wordsArray(i - 1) 'Récupère le dernier mot de la Ref associée
 
-                If (Not (IsNumeric(PotentialRef)) And (Not inArray(ExeptionArray, PotentialRef))) Then   'Si la Ref correspond à un mot clé  => pas un numéro, pas un mot comme "Figure", pas un mot qui annonce une valeur "plus de, moins de, exemple,..."
-                    If Not inArray(ValNumArray, PotentialRef) Then 'et n'existe pas encore, on la crée
-                        Dim Ref = New String() {" ", " ", " ", " ", " ", " "} 'Taille maximale : 6 mots => Permet d'éviter des bugs avec des Références trop longues
+                If (Not inArray(ExeptionArray, PotentialRef)) And Not (IsNumeric(PotentialRef)) Then   'Si la Ref correspond à un mot clé  => pas un numéro, pas un mot comme "Figure", pas un mot qui annonce une valeur "plus de, moins de, exemple,..."
+                    Dim Ref = New String() {" ", " ", " ", " ", " ", " "} 'Taille maximale : 6 mots => Permet d'éviter des bugs avec des Références trop longues
 
-                        Ref(5) = PotentialRef 'Remplis la référence en commencçant par son dernier mot
-                        For k = 2 To 6 Step 1 'remonte la référence en regardant les mots précédents, jusqu'à tomber sur un déterminant.
-                            Dim RefWord As String = wordsArray(i - k)
-                            If (Not (IsNumeric(RefWord)) And Not inArray(DeterminantsArray, RefWord)) Then
-                                Ref(6 - k) = RefWord
-                            Else
-                                Exit For
-                            End If
-                        Next k
-
-                        Dim refText As String = Trim(Join(Ref))   'Concatène la ref complète'
-
-                        If (Not RefDict.Exists(refText)) Then          'Si cette référence textuelle n'existe pas encore, la crée et lui associe le numéro de référence'
-                            Dim numArray = New String() {PotentialNum}
-                            RefDict.Add(Key:=refText, Item:=numArray)
-
-                        ElseIf ((RefDict.Exists(refText)) And (Not inArray(RefDict(refText), PotentialNum))) Then 'Si cette référence existe avec un numéro différent, ajoute ce numéro à la référence'
-                            Dim numArray = RefDict(refText)
-                            N = UBound(numArray) + 1
-                            ReDim Preserve numArray(N)
-                            numArray(UBound(numArray)) = PotentialNum
-                            RefDict(refText) = numArray
+                    Ref(5) = PotentialRef 'Remplis la référence en commencçant par son dernier mot
+                    For k = 2 To 6 Step 1 'remonte la référence en regardant les mots précédents, jusqu'à tomber sur un déterminant.
+                        Dim RefWord As String = wordsArray(i - k)
+                        If (Not (IsNumeric(RefWord)) And Not inArray(DeterminantsArray, RefWord)) Then
+                            Ref(6 - k) = RefWord
+                        Else
+                            Exit For
                         End If
+                    Next k
+
+                    Dim refText As String = Trim(Join(Ref))   'Concatène la ref complète'
+
+                    If (Not RefDict.Exists(refText)) Then          'Si cette référence textuelle n'existe pas encore, la crée et lui associe le numéro de référence'
+                        Dim numArray = New String() {PotentialNum}
+                        RefDict.Add(Key:=refText, Item:=numArray)
+
+                    ElseIf ((RefDict.Exists(refText)) And (Not inArray(RefDict(refText), PotentialNum))) Then 'Si cette référence existe avec un numéro différent, ajoute ce numéro à la référence'
+                        Dim numArray = RefDict(refText)
+                        N = UBound(numArray) + 1
+                        ReDim Preserve numArray(N)
+                        numArray(UBound(numArray)) = PotentialNum
+                        RefDict(refText) = numArray
                     End If
                 End If
             End If
-        Next i
+            Next i
 
-        RefDict = ClearDuplicates(RefDict) 'Retire les doucblons
+            RefDict = ClearDuplicates(RefDict) 'Retire les doucblons
 
-        'Retourne pour avoir un tableau des numéros avec les références textuelles associées
-        For Each Key In RefDict.Keys
-            Dim numArray = RefDict(Key)
-            For Each Num In numArray
-                If Not (NumDict.Exists(Num)) Then
-                    Dim RefArray = New String() {Key}
-                    NumDict.Add(Key:=Num, Item:=RefArray)
-                ElseIf (Not inArray(NumDict(Num), Key)) Then
-                    Dim RefArray = NumDict(Num)
-                    N = UBound(RefArray) + 1
-                    ReDim Preserve RefArray(N)
-                    RefArray(UBound(RefArray)) = Key
-                    NumDict(Num) = RefArray
-                End If
-            Next Num
-        Next Key
-        NumRefs = NumDict
+            'Retourne pour avoir un tableau des numéros avec les références textuelles associées
+            For Each Key In RefDict.Keys
+                Dim numArray = RefDict(Key)
+                For Each Num In numArray
+                    If Not (NumDict.Exists(Num)) Then
+                        Dim RefArray = New String() {Key}
+                        NumDict.Add(Key:=Num, Item:=RefArray)
+                    ElseIf (Not inArray(NumDict(Num), Key)) Then
+                        Dim RefArray = NumDict(Num)
+                        N = UBound(RefArray) + 1
+                        ReDim Preserve RefArray(N)
+                        RefArray(UBound(RefArray)) = Key
+                        NumDict(Num) = RefArray
+                    End If
+                Next Num
+            Next Key
+            NumRefs = NumDict
     End Function
 
 

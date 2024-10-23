@@ -18,8 +18,6 @@ Public Class Ribbon1
 
         myCustomTaskPane.Width = 350
 
-
-
         myUserControl1.ListView1.Items.Clear()
         myUserControl1.ListView1.Columns.Clear()
         myUserControl1.ListView1.Columns.Add("Number", 100)

@@ -18,6 +18,7 @@ Public Class MyUserControl
     Private selectedIndex As Integer
     Private SelectedRef As String
     Private currentRange As Word.Range
+    Private language As String = "fr"
 
 
 
@@ -173,7 +174,10 @@ Public Class MyUserControl
 
         Dim AddIn = Globals.ThisAddIn
         Dim NumRefs As Object
-        NumRefs = AddIn.NumRefs()
+
+
+        NumRefs = AddIn.NumRefs(language)
+
 
         Dim N = NumRefs.Count
         If N = 0 Then
@@ -250,6 +254,14 @@ Public Class MyUserControl
         ' Activer OwnerDraw pour les sous-éléments (nécessaire pour dessiner manuellement)
         ListView1.OwnerDraw = True
         ListView1.FullRowSelect = False
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles EnglishVersion.CheckedChanged
+        If EnglishVersion.Checked Then
+            language = "en"
+        Else
+            language = "fr"
+        End If
     End Sub
 
 
