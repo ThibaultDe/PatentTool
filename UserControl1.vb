@@ -55,6 +55,44 @@ Public Class MyUserControl
     '    Return String.Empty
     'End Function
 
+    Public Sub FillRevsList()
+        Dim AddIn = Globals.ThisAddIn
+        Dim NumRefs As Object
+
+
+        NumRefs = AddIn.NumRefs(language)
+
+
+        Dim N = NumRefs.Count
+        If N = 0 Then
+            Return
+        End If
+
+        Debug.Print("N=" & N)
+        Dim KeyList As New List(Of Integer)()
+
+        For Each Key In NumRefs.Keys
+            KeyList.Add(CInt(Key))
+        Next
+
+        KeyList.Sort()
+
+        For Each Key In KeyList
+            Debug.Print(Key.ToString)
+            Dim RefsArray = NumRefs(Key.ToString)
+            Dim Num As String
+            For i = 0 To UBound(RefsArray)
+                If i = 0 Then
+                    Num = Key.ToString()
+                Else
+                    Num = ""
+                End If
+                Dim lvi As New System.Windows.Forms.ListViewItem(Num)
+                lvi.SubItems.Add(RefsArray(i))
+                ListView1.Items.Add(lvi)
+            Next i
+        Next
+    End Sub
 
     Private Sub Replace_Click(sender As Object, e As EventArgs) Handles Replace.Click
         Dim DocRange = Globals.ThisAddIn.Application.ActiveDocument.Range
@@ -145,6 +183,7 @@ Public Class MyUserControl
 
         With RevRange.Find
             .Text = SelectedRef
+            .Font.Italic = False
             .Replacement.Text = SelectedRef + " (" + Number + ")"
             .Forward = True
             .MatchCase = False
@@ -168,46 +207,9 @@ Public Class MyUserControl
     End Sub
 
 
-
-    Private Sub FindRefs_Click_1(sender As Object, e As EventArgs) Handles FindRefs.Click
+    Private Sub Refresh_Click_1(sender As Object, e As EventArgs) Handles FindRefs.Click
         ListView1.Items.Clear()
-
-        Dim AddIn = Globals.ThisAddIn
-        Dim NumRefs As Object
-
-
-        NumRefs = AddIn.NumRefs(language)
-
-
-        Dim N = NumRefs.Count
-        If N = 0 Then
-            Return
-        End If
-
-        Debug.Print("N=" & N)
-        Dim KeyList As New List(Of Integer)()
-
-        For Each Key In NumRefs.Keys
-            KeyList.Add(CInt(Key))
-        Next
-
-        KeyList.Sort()
-
-        For Each Key In KeyList
-            Debug.Print(Key.ToString)
-            Dim RefsArray = NumRefs(Key.ToString)
-            Dim Num As String
-            For i = 0 To UBound(RefsArray)
-                If i = 0 Then
-                    Num = Key.ToString()
-                Else
-                    Num = ""
-                End If
-                Dim lvi As New System.Windows.Forms.ListViewItem(Num)
-                lvi.SubItems.Add(RefsArray(i))
-                ListView1.Items.Add(lvi)
-            Next i
-        Next
+        FillRevsList()
     End Sub
 
 
@@ -267,4 +269,23 @@ Public Class MyUserControl
 
     '------------------------------------------------------------------------------------------'
 
+    'Permet d'afficher la liste dès qu'on Load le user control. Pour que la fonction marche, il faut que le User Control aie le temps
+    ' de charger entièrement. Donc 1ier évènement : On lance un timer. Quand il est fini, on lance la fonction.
+    Private Sub MyUserControl_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Démarre un timer pour appeler la fonction après un court délai
+        Dim timer As New Timer()
+        AddHandler timer.Tick, AddressOf Timer_Tick
+        timer.Interval = 100 ' Délai en millisecondes
+        timer.Start()
+    End Sub
+
+    Private Sub Timer_Tick(sender As Object, e As EventArgs)
+        ' Arrête le timer
+        Dim timer As Timer = CType(sender, Timer)
+        timer.Stop()
+        RemoveHandler timer.Tick, AddressOf Timer_Tick
+
+        ' Appelle la fonction
+        FillRevsList()
+    End Sub
 End Class

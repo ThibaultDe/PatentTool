@@ -9,15 +9,13 @@ Public Class Ribbon1
 
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As RibbonControlEventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As RibbonControlEventArgs) Handles FindRefs.Click
         Dim AddIn = Globals.ThisAddIn
-
 
         Dim myUserControl1 = New MyUserControl()
         Dim myCustomTaskPane = AddIn.CustomTaskPanes.Add(myUserControl1, "Références")
 
         myCustomTaskPane.Width = 350
-
         myUserControl1.ListView1.Items.Clear()
         myUserControl1.ListView1.Columns.Clear()
         myUserControl1.ListView1.Columns.Add("Number", 100)
@@ -25,6 +23,7 @@ Public Class Ribbon1
         myUserControl1.ListView1.View = System.Windows.Forms.View.Details
 
         myCustomTaskPane.Visible = True
+
 
 
     End Sub

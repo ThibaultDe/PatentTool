@@ -33,26 +33,34 @@ Public Class ThisAddIn
         Return input.Replace(vbCr, " ").Replace(vbLf, " ").Replace(vbCrLf, " ").Replace("’", "'").Replace(",", "").Replace(".", "").Replace(";", "").Replace("l'", "l ").Replace("(", "").Replace(")", "").Trim()
     End Function
 
-    Public Function ClearDuplicates(ByRef RefDict As Object) As Object
-        'Supprime les doublons si deux refs sont contenues l'une dans l'autre
-        For Each Key1 In RefDict.Keys
-            Debug.Print(Key1)
-            For Each Key2 In RefDict.Keys
-                If RefDict.Exists(Key1) And (Not (Key1 = Key2)) And (Right(Key1, Len(Key2)) = Key2) Then
-                    'Debug.Print "A", "key1", Key1, "key2", Key2'
-                    RefDict.Remove(Key1)
-                ElseIf (Not (Key1 = Key2)) And (Right(Key2, Len(Key1)) = Key1) Then
-                    'Debug.Print "B", "key1", Key1, "key2", Key2'
-                    RefDict.Remove(Key2)
-                End If
+    Public Function ClearDuplicates(ByRef Numrefs As Object) As Object
+        For Each Key In Numrefs.Keys
+            Dim RefArray = Numrefs(Key)
+            Dim TempList As New List(Of Object)
 
-            Next Key2
-        Next Key1
+            For i = UBound(RefArray) To LBound(RefArray) Step -1
+                Dim Ref1 = RefArray(i).ToString()
+                Dim IsDuplicate As Boolean = False
+                For j = UBound(RefArray) To LBound(RefArray) Step -1
+                    If i <> j Then
+                        Dim Ref2 = RefArray(j).ToString()
+                        If Right(Ref1, Len(Ref2)) = Ref2 Then
+                            Debug.Print("A", "key1", Ref1, "key2", Ref2)
+                            IsDuplicate = True
+                            Exit For
+                        End If
+                    End If
+                Next j
+                ' Ajoute Ref1 à la liste temporaire s'il n'est pas un doublon
+                If Not IsDuplicate Then TempList.Add(Ref1)
+            Next i
 
-        Return RefDict
+            ' Remplace RefArray par une version filtrée sans doublons
+            Numrefs(Key) = TempList.ToArray()
+        Next Key
 
+        Return Numrefs
     End Function
-
 
     Function GetDescriptionRange() As Range
         '--------------------- Réccupère le Range de la description des figures, entre les termes "Description" et "Revendications" en GRAS -------------------------'
@@ -148,8 +156,8 @@ Public Class ThisAddIn
         For i = 3 To UBound(wordsArray) 'Itère sur l'ensemble des mots du texte
             Dim aWord As String = wordsArray(i)
             If (IsNumeric(aWord)) Then  ' Repère les références numériques
-                    Dim PotentialNum As String = aWord
-                    Dim PotentialRef As String = wordsArray(i - 1) 'Récupère le dernier mot de la Ref associée
+                Dim PotentialNum As String = aWord
+                Dim PotentialRef As String = wordsArray(i - 1) 'Récupère le dernier mot de la Ref associée
 
                 If (Not inArray(ExeptionArray, PotentialRef)) And Not (IsNumeric(PotentialRef)) Then   'Si la Ref correspond à un mot clé  => pas un numéro, pas un mot comme "Figure", pas un mot qui annonce une valeur "plus de, moins de, exemple,..."
                     Dim Ref = New String() {" ", " ", " ", " ", " ", " "} 'Taille maximale : 6 mots => Permet d'éviter des bugs avec des Références trop longues
@@ -179,27 +187,28 @@ Public Class ThisAddIn
                     End If
                 End If
             End If
-            Next i
+        Next i
 
-            RefDict = ClearDuplicates(RefDict) 'Retire les doucblons
+        'Retourne pour avoir un tableau des numéros avec les références textuelles associées
+        For Each Key In RefDict.Keys
+            Dim numArray = RefDict(Key)
+            For Each Num In numArray
+                If Not (NumDict.Exists(Num)) Then
+                    Dim RefArray = New String() {Key}
+                    NumDict.Add(Key:=Num, Item:=RefArray)
+                ElseIf (Not inArray(NumDict(Num), Key)) Then
+                    Dim RefArray = NumDict(Num)
+                    N = UBound(RefArray) + 1
+                    ReDim Preserve RefArray(N)
+                    RefArray(UBound(RefArray)) = Key
+                    NumDict(Num) = RefArray
+                End If
+            Next Num
+        Next Key
+        NumRefs = NumDict
 
-            'Retourne pour avoir un tableau des numéros avec les références textuelles associées
-            For Each Key In RefDict.Keys
-                Dim numArray = RefDict(Key)
-                For Each Num In numArray
-                    If Not (NumDict.Exists(Num)) Then
-                        Dim RefArray = New String() {Key}
-                        NumDict.Add(Key:=Num, Item:=RefArray)
-                    ElseIf (Not inArray(NumDict(Num), Key)) Then
-                        Dim RefArray = NumDict(Num)
-                        N = UBound(RefArray) + 1
-                        ReDim Preserve RefArray(N)
-                        RefArray(UBound(RefArray)) = Key
-                        NumDict(Num) = RefArray
-                    End If
-                Next Num
-            Next Key
-            NumRefs = NumDict
+
+        ClearDuplicates(NumRefs) 'Retire les doucblons
     End Function
 
 

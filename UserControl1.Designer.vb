@@ -46,7 +46,7 @@ Partial Class MyUserControl
         Me.FindRefs.Name = "FindRefs"
         Me.FindRefs.Size = New System.Drawing.Size(123, 23)
         Me.FindRefs.TabIndex = 3
-        Me.FindRefs.Text = "Find References 1.5"
+        Me.FindRefs.Text = "Refresh"
         Me.FindRefs.UseVisualStyleBackColor = True
         '
         'ListView1
