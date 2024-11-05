@@ -63,7 +63,7 @@
         '
         'FindRefs
         '
-        Me.FindRefs.Label = "Find Refs V1.6"
+        Me.FindRefs.Label = "Find Refs V1.7"
         Me.FindRefs.Name = "FindRefs"
         Me.FindRefs.ShowImage = True
         '

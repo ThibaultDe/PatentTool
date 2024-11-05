@@ -29,6 +29,7 @@ Partial Class MyUserControl
         Me.Text = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Replace_All = New System.Windows.Forms.Button()
         Me.EnglishVersion = New System.Windows.Forms.CheckBox()
+        Me.ContinuousScann = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Replace
@@ -44,7 +45,7 @@ Partial Class MyUserControl
         '
         Me.FindRefs.Location = New System.Drawing.Point(3, 3)
         Me.FindRefs.Name = "FindRefs"
-        Me.FindRefs.Size = New System.Drawing.Size(123, 23)
+        Me.FindRefs.Size = New System.Drawing.Size(113, 23)
         Me.FindRefs.TabIndex = 3
         Me.FindRefs.Text = "Refresh"
         Me.FindRefs.UseVisualStyleBackColor = True
@@ -53,9 +54,9 @@ Partial Class MyUserControl
         '
         Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Number, Me.Text})
         Me.ListView1.HideSelection = False
-        Me.ListView1.Location = New System.Drawing.Point(3, 32)
+        Me.ListView1.Location = New System.Drawing.Point(3, 51)
         Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(327, 687)
+        Me.ListView1.Size = New System.Drawing.Size(327, 668)
         Me.ListView1.TabIndex = 4
         Me.ListView1.UseCompatibleStateImageBehavior = False
         '
@@ -78,10 +79,21 @@ Partial Class MyUserControl
         Me.EnglishVersion.Text = "English Version"
         Me.EnglishVersion.UseVisualStyleBackColor = True
         '
+        'ContinuousScann
+        '
+        Me.ContinuousScann.AutoSize = True
+        Me.ContinuousScann.Location = New System.Drawing.Point(3, 28)
+        Me.ContinuousScann.Name = "ContinuousScann"
+        Me.ContinuousScann.Size = New System.Drawing.Size(113, 17)
+        Me.ContinuousScann.TabIndex = 7
+        Me.ContinuousScann.Text = "Continuous Scann"
+        Me.ContinuousScann.UseVisualStyleBackColor = True
+        '
         'MyUserControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.ContinuousScann)
         Me.Controls.Add(Me.EnglishVersion)
         Me.Controls.Add(Me.Replace_All)
         Me.Controls.Add(Me.ListView1)
@@ -100,4 +112,5 @@ Partial Class MyUserControl
     Friend WithEvents Text As Windows.Forms.ColumnHeader
     Friend WithEvents Replace_All As Windows.Forms.Button
     Friend WithEvents EnglishVersion As Windows.Forms.CheckBox
+    Friend WithEvents ContinuousScann As Windows.Forms.CheckBox
 End Class

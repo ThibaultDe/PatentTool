@@ -45,7 +45,7 @@ Public Class ThisAddIn
                     If i <> j Then
                         Dim Ref2 = RefArray(j).ToString()
                         If Right(Ref1, Len(Ref2)) = Ref2 Then
-                            Debug.Print("A", "key1", Ref1, "key2", Ref2)
+                            'Debug.Print("key1", Ref1, "key2", Ref2)
                             IsDuplicate = True
                             Exit For
                         End If
@@ -136,7 +136,8 @@ Public Class ThisAddIn
         If Language = "en" Then
             ExeptionArray = New String() {"figure", "fig", "figures", "and", "or", "about", "approximately", "less", "example", "of", "than", "to", "between", "=", "+", "-", "{", "[", ";", ",", "."}
             DeterminantsArray = New String() {",", ";", "the", "a", "an", "this", "that", "these", "those", "his", "her", "its", "their", "my", "your", "our", "some", "any", "each", "every", "many", "several", "few", "more", "less", "most", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "twenty", "hundred", "thousand", "in", "on", "at", "with", "by", "for", "to", "from", "over", "under", "near", "between", "among", "through", "without", "before", "after", "about", "around", "behind", "above", "below", "next to", "beyond", "beside"}
-        Else Language = "fr"
+        ElseIf Language = "fr" Then
+            Debug.Print("Déterminant Fr")
             ExeptionArray = New String() {"figure", "fig", "figures", "et", "ou", "environ", "d'environ", "moins", "exemple", "de", "que", "entre", "à", "=", "+", "-", "{", "[", ";", ",", "."}
             DeterminantsArray = New String() {",", ";", "le", "la", "au", "l", "les", "ce", "cette", "ces", "son", "sa", "ses", "leur", "leurs", "un", "une", "qu'un", "qu'une", "d'une", "d'un", "du", "des", "et", "chaque", "plusieurs", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "vingt"}
         End If

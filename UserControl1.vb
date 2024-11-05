@@ -20,55 +20,50 @@ Public Class MyUserControl
     Private currentRange As Word.Range
     Private language As String = "fr"
 
+    Private WithEvents application As Word.Application
+    Private WithEvents activeDocument As Word.Document
+    Private lastText As String = ""
 
 
-    ' ESSAYER AVEC UN AUTRE EVENEMENT '
-    'Private WithEvents wordApp As Microsoft.Office.Interop.Word.Application
+    ' Timer pour vérifier les changements de texte
+    Private textCheckTimer As Timer
 
-    'Public Sub New(wordApp As Word.Application)
-    '    InitializeComponent()
-    '    Me.wordApp = wordApp
+    ' Méthode appelée par le Timer pour vérifier les changements
+    Private Sub OnTimerTick(ByVal sender As Object, ByVal e As EventArgs)
 
-    '    If Me.wordApp Is Nothing Then
-    '        MsgBox("Application Word non disponible.") 'A SUPPRIMER QUAND CA MARCHERA
-    '    End If
+        Dim AddIn = Globals.ThisAddIn
+        Dim DescriptionRange As Range = AddIn.GetDescriptionRange() ' Réccupère le range de la description des figures
 
-    'End Sub
+        Dim currentText As String = DescriptionRange.Text
 
-    'Private Sub wordApp_WindowSelectionChange(ByVal Sel As Word.Selection) Handles wordApp.WindowSelectionChange
-    '    Threading.Thread.Sleep(100) ' Pause de 100 ms
-    '    Debug.Print("AAAA")
-    '    Debug.Print("Sélection actuelle : " & Sel.Range.Text)
-    '    Dim currentWord As String = GetLastWord(Sel)
-    '    Debug.Print(currentWord)
-    '    If IsNumeric(currentWord) Then
-    '        MsgBox("Vous avez tapé un nombre : " & currentWord)
-    '    End If
-    'End Sub
+        ' Comparer avec le dernier texte enregistré
+        If currentText.Length <> lastText.Length Then
+            ' Un changement a été détecté
+            'Debug.Print("Un ajout détecté dans le document !")
+            ListView1.Items.Clear()
+            FillRevsList()
+        End If
 
-    'Private Function GetLastWord(ByVal selection As Word.Selection) As String
-    '    If selection.Type = Word.WdSelectionType.wdSelectionNormal AndAlso selection.Text.Length > 0 Then
-    '        Dim words As String() = selection.Text.Trim().Split(" "c)
-    '        Return words(words.Length - 1) ' Retourne le dernier mot tapé
-    '    End If
+        ' Mettre à jour le dernier texte
+        lastText = currentText
+    End Sub
 
-    '    Return String.Empty
-    'End Function
+    ' Cette méthode peut être appelée pour détacher l'événement lorsque le UserControl est fermé
+    Public Sub DetachEvents()
+        textCheckTimer.Stop() ' Arrêter le timer
+    End Sub
 
     Public Sub FillRevsList()
         Dim AddIn = Globals.ThisAddIn
         Dim NumRefs As Object
-
-
         NumRefs = AddIn.NumRefs(language)
-
 
         Dim N = NumRefs.Count
         If N = 0 Then
             Return
         End If
 
-        Debug.Print("N=" & N)
+        'Debug.Print("N=" & N)
         Dim KeyList As New List(Of Integer)()
 
         For Each Key In NumRefs.Keys
@@ -134,7 +129,7 @@ Public Class MyUserControl
 
         If currentRange.Find.Execute() Then
             Dim foundText As String = currentRange.Text
-            Debug.Write("  " & foundText) ' Imprime le texte trouvé
+            'Debug.Write("  " & foundText) ' Imprime le texte trouvé
 
             currentRange.Text = foundText + " (" + Number + ")"
             currentRange.Font.Italic = True ' Mettre en italique le texte remplacé
@@ -228,7 +223,7 @@ Public Class MyUserControl
             ' Afficher un message avec le texte et l'indice de la colonne
             SelectedRef = info.SubItem.Text
 
-            Debug.Print("Colonne " & selectedCol.ToString() & " cliquée : " & info.SubItem.Text)
+            'Debug.Print("Colonne " & selectedCol.ToString() & " cliquée : " & info.SubItem.Text)
             ' Forcer le ListView à se redessiner
             ListView1.Invalidate()
         End If
@@ -264,6 +259,8 @@ Public Class MyUserControl
         Else
             language = "fr"
         End If
+        ListView1.Items.Clear()
+        FillRevsList()
     End Sub
 
 
@@ -284,8 +281,30 @@ Public Class MyUserControl
         Dim timer As Timer = CType(sender, Timer)
         timer.Stop()
         RemoveHandler timer.Tick, AddressOf Timer_Tick
-
         ' Appelle la fonction
         FillRevsList()
+    End Sub
+
+    Public Sub New()
+        ' Initialisation des composants du UserControl
+        InitializeComponent()
+        ' Assigner l'application active à la variable globale
+        application = Globals.ThisAddIn.Application
+
+        ' Lier l'événement DocumentOpen pour suivre le document actif
+        activeDocument = application.ActiveDocument
+    End Sub
+
+
+    Private Sub CheckBox1_CheckedChanged_1(sender As Object, e As EventArgs) Handles ContinuousScann.CheckedChanged
+        If ContinuousScann.Checked Then
+            textCheckTimer = New Timer()
+            textCheckTimer.Interval = 5000 ' Vérification toutes les 500 ms
+            AddHandler textCheckTimer.Tick, AddressOf OnTimerTick
+            textCheckTimer.Start()
+        Else
+            textCheckTimer.Stop() ' Arrêter le timer
+        End If
+
     End Sub
 End Class
