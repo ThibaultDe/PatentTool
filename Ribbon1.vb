@@ -27,5 +27,9 @@ Public Class Ribbon1
 
 
     End Sub
+
+    Private Sub FindRefs_Disposed(sender As Object, e As EventArgs) Handles FindRefs.Disposed
+
+    End Sub
 End Class
 
