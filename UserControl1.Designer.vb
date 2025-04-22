@@ -22,24 +22,17 @@ Partial Class MyUserControl
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.Replace = New System.Windows.Forms.Button()
         Me.FindRefs = New System.Windows.Forms.Button()
         Me.ListView1 = New System.Windows.Forms.ListView()
         Me.Number = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Text = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Replace_All = New System.Windows.Forms.Button()
+        Me.ReplaceAllRevs = New System.Windows.Forms.Button()
         Me.EnglishVersion = New System.Windows.Forms.CheckBox()
         Me.ContinuousScann = New System.Windows.Forms.CheckBox()
+        Me.ReplaceRevs = New System.Windows.Forms.Button()
+        Me.ReplaceDesc = New System.Windows.Forms.Button()
+        Me.ReplaceAllDesc = New System.Windows.Forms.Button()
         Me.SuspendLayout()
-        '
-        'Replace
-        '
-        Me.Replace.Location = New System.Drawing.Point(3, 725)
-        Me.Replace.Name = "Replace"
-        Me.Replace.Size = New System.Drawing.Size(165, 23)
-        Me.Replace.TabIndex = 2
-        Me.Replace.Text = "Replace"
-        Me.Replace.UseVisualStyleBackColor = True
         '
         'FindRefs
         '
@@ -60,14 +53,14 @@ Partial Class MyUserControl
         Me.ListView1.TabIndex = 4
         Me.ListView1.UseCompatibleStateImageBehavior = False
         '
-        'Replace_All
+        'ReplaceAllRevs
         '
-        Me.Replace_All.Location = New System.Drawing.Point(174, 725)
-        Me.Replace_All.Name = "Replace_All"
-        Me.Replace_All.Size = New System.Drawing.Size(156, 23)
-        Me.Replace_All.TabIndex = 5
-        Me.Replace_All.Text = "Replace All"
-        Me.Replace_All.UseVisualStyleBackColor = True
+        Me.ReplaceAllRevs.Location = New System.Drawing.Point(174, 725)
+        Me.ReplaceAllRevs.Name = "ReplaceAllRevs"
+        Me.ReplaceAllRevs.Size = New System.Drawing.Size(156, 23)
+        Me.ReplaceAllRevs.TabIndex = 5
+        Me.ReplaceAllRevs.Text = "Replace All in Revs"
+        Me.ReplaceAllRevs.UseVisualStyleBackColor = True
         '
         'EnglishVersion
         '
@@ -89,28 +82,59 @@ Partial Class MyUserControl
         Me.ContinuousScann.Text = "Continuous Scann"
         Me.ContinuousScann.UseVisualStyleBackColor = True
         '
+        'ReplaceRevs
+        '
+        Me.ReplaceRevs.Location = New System.Drawing.Point(3, 725)
+        Me.ReplaceRevs.Name = "ReplaceRevs"
+        Me.ReplaceRevs.Size = New System.Drawing.Size(165, 23)
+        Me.ReplaceRevs.TabIndex = 2
+        Me.ReplaceRevs.Text = "Replace in Revs"
+        Me.ReplaceRevs.UseVisualStyleBackColor = True
+        '
+        'ReplaceDesc
+        '
+        Me.ReplaceDesc.Location = New System.Drawing.Point(3, 754)
+        Me.ReplaceDesc.Name = "ReplaceDesc"
+        Me.ReplaceDesc.Size = New System.Drawing.Size(165, 23)
+        Me.ReplaceDesc.TabIndex = 8
+        Me.ReplaceDesc.Text = "Replace in Desc"
+        Me.ReplaceDesc.UseVisualStyleBackColor = True
+        '
+        'ReplaceAllDesc
+        '
+        Me.ReplaceAllDesc.Location = New System.Drawing.Point(174, 754)
+        Me.ReplaceAllDesc.Name = "ReplaceAllDesc"
+        Me.ReplaceAllDesc.Size = New System.Drawing.Size(156, 23)
+        Me.ReplaceAllDesc.TabIndex = 9
+        Me.ReplaceAllDesc.Text = "Replace All in Desc"
+        Me.ReplaceAllDesc.UseVisualStyleBackColor = True
+        '
         'MyUserControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.ReplaceAllDesc)
+        Me.Controls.Add(Me.ReplaceDesc)
         Me.Controls.Add(Me.ContinuousScann)
         Me.Controls.Add(Me.EnglishVersion)
-        Me.Controls.Add(Me.Replace_All)
+        Me.Controls.Add(Me.ReplaceAllRevs)
         Me.Controls.Add(Me.ListView1)
         Me.Controls.Add(Me.FindRefs)
-        Me.Controls.Add(Me.Replace)
+        Me.Controls.Add(Me.ReplaceRevs)
         Me.Name = "MyUserControl"
-        Me.Size = New System.Drawing.Size(336, 767)
+        Me.Size = New System.Drawing.Size(336, 787)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Replace As Windows.Forms.Button
     Friend WithEvents FindRefs As Windows.Forms.Button
     Friend WithEvents ListView1 As Windows.Forms.ListView
     Friend WithEvents Number As Windows.Forms.ColumnHeader
     Friend WithEvents Text As Windows.Forms.ColumnHeader
-    Friend WithEvents Replace_All As Windows.Forms.Button
+    Friend WithEvents ReplaceAllRevs As Windows.Forms.Button
     Friend WithEvents EnglishVersion As Windows.Forms.CheckBox
     Friend WithEvents ContinuousScann As Windows.Forms.CheckBox
+    Friend WithEvents ReplaceRevs As Windows.Forms.Button
+    Friend WithEvents ReplaceDesc As Windows.Forms.Button
+    Friend WithEvents ReplaceAllDesc As Windows.Forms.Button
 End Class

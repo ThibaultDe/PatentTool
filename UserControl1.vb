@@ -9,6 +9,7 @@ Imports System.Collections.Generic
 Imports System.Drawing
 Imports Word = Microsoft.Office.Interop.Word
 Imports System.Drawing.Text
+Imports System.Text.RegularExpressions
 
 
 Public Class MyUserControl
@@ -73,7 +74,6 @@ Public Class MyUserControl
         KeyList.Sort()
 
         For Each Key In KeyList
-            Debug.Print(Key.ToString)
             Dim RefsArray = NumRefs(Key.ToString)
             Dim Num As String
             For i = 0 To UBound(RefsArray)
@@ -87,9 +87,19 @@ Public Class MyUserControl
                 ListView1.Items.Add(lvi)
             Next i
         Next
+
+        ListView1.Items(0).Selected = True
+        ListView1.Select()
+
     End Sub
 
-    Private Sub Replace_Click(sender As Object, e As EventArgs) Handles Replace.Click
+    Private ReadOnly Property Right(ref1 As String, v As Integer) As String
+        Get
+            Throw New NotImplementedException()
+        End Get
+    End Property
+
+    Private Sub ReplaceRevs_Click(sender As Object, e As EventArgs) Handles ReplaceRevs.Click
         Dim DocRange = Globals.ThisAddIn.Application.ActiveDocument.Range
         Dim RevRange As Object
         Dim RevStart As Object
@@ -122,9 +132,14 @@ Public Class MyUserControl
 
         Dim currentRange As Word.Range = RevRange
 
+        If Len(SelectedRef) < 1 Or IsNumeric(SelectedRef) Then
+            Exit Sub
+        End If
+
         With currentRange.Find
             .Text = SelectedRef ' Rechercher le texte sélectionné
             .Font.Italic = False ' Ignorer la mise en forme italique dans la recherche
+            .MatchWholeWord = True
         End With
 
         If currentRange.Find.Execute() Then
@@ -146,8 +161,7 @@ Public Class MyUserControl
 
     End Sub
 
-
-    Private Sub Replace_All_Click(sender As Object, e As EventArgs) Handles Replace_All.Click
+    Private Sub ReplaceAllRevs_Click(sender As Object, e As EventArgs) Handles ReplaceAllRevs.Click
         Dim DocRange = Globals.ThisAddIn.Application.ActiveDocument.Range
         Dim RevRange As Object
         Dim RevStart As Object
@@ -176,10 +190,15 @@ Public Class MyUserControl
             Number = ListView1.Items(ind).SubItems(0).Text
         End While
 
+        If Len(SelectedRef) < 1 Or IsNumeric(SelectedRef) Then
+            Exit Sub
+        End If
+
         With RevRange.Find
             .Text = SelectedRef
             .Font.Italic = False
             .Replacement.Text = SelectedRef + " (" + Number + ")"
+            .MatchWholeWord = True
             .Forward = True
             .MatchCase = False
 
@@ -192,6 +211,7 @@ Public Class MyUserControl
             .Font.Italic = False
             .Replacement.Text = ""
             .Forward = True
+            .MatchWholeWord = True
             .Wrap = Word.WdFindWrap.wdFindStop
 
             Do While .Execute
@@ -201,6 +221,97 @@ Public Class MyUserControl
 
     End Sub
 
+    Private Sub ReplaceAllDesc_Click(sender As Object, e As EventArgs) Handles ReplaceAllDesc.Click
+        Dim DescriptionRange As Range = Globals.ThisAddIn.GetDescriptionRange() ' Réccupère le range de la description des figures
+        If DescriptionRange Is Nothing Then
+            Debug.Print("Pas de description")
+        End If
+
+        Dim ind = selectedIndex
+        Dim Number = ListView1.Items(ind).SubItems(0).Text
+
+        If Len(SelectedRef) < 1 Or IsNumeric(SelectedRef) Then
+            Exit Sub
+        End If
+
+
+        While Number = ""
+            ind = ind - 1
+            Number = ListView1.Items(ind).SubItems(0).Text
+        End While
+
+        With DescriptionRange.Find
+            .Text = SelectedRef
+            .Font.Italic = False
+            .Replacement.Text = SelectedRef + " " + Number + " "
+            .MatchWholeWord = True
+            .Forward = True
+            .MatchCase = False
+
+            ' Remplacer toutes les occurrences
+            .Execute(Replace:=Word.WdReplace.wdReplaceAll)
+        End With
+
+        With DescriptionRange.Find
+            .Text = SelectedRef + " " + Number
+            .Font.Italic = False
+            .Replacement.Text = ""
+            .Forward = True
+            .MatchWholeWord = True
+            .Wrap = Word.WdFindWrap.wdFindStop
+
+            Do While .Execute
+                DescriptionRange.Font.Italic = True
+            Loop
+        End With
+    End Sub
+
+    Private Sub ReplaceDesc_Click(sender As Object, e As EventArgs) Handles ReplaceDesc.Click
+        Dim DocRange = Globals.ThisAddIn.Application.ActiveDocument.Range
+        Dim DescriptionRange As Range = Globals.ThisAddIn.GetDescriptionRange() ' Réccupère le range de la description des figures
+        If DescriptionRange Is Nothing Then
+            Debug.Print("Pas de description")
+        End If
+
+
+        Dim ind = selectedIndex
+        Dim Number = ListView1.Items(ind).SubItems(0).Text
+
+        While Number = ""
+            ind = ind - 1
+            Number = ListView1.Items(ind).SubItems(0).Text
+        End While
+
+        'Dim RepText = SelectedRef + " (" + Number + ")"
+        If Len(SelectedRef) < 1 Or IsNumeric(SelectedRef) Then
+            Exit Sub
+        End If
+
+        Dim currentRange As Word.Range = DescriptionRange
+
+        With currentRange.Find
+            .Text = SelectedRef ' Rechercher le texte sélectionné
+            .Font.Italic = False ' Ignorer la mise en forme italique dans la recherche
+            .MatchWholeWord = True
+        End With
+
+        If currentRange.Find.Execute() Then
+            Dim foundText As String = currentRange.Text
+            'Debug.Write("  " & foundText) ' Imprime le texte trouvé
+
+            currentRange.Text = foundText + " (" + Number + ")"
+            currentRange.Font.Italic = True ' Mettre en italique le texte remplacé
+
+            'Avancer la plage après l'occurrence remplacée
+            currentRange.Start = currentRange.End
+
+            currentRange.Select() ' Sélectionner la plage remplacée
+            Globals.ThisAddIn.Application.ActiveWindow.ScrollIntoView(currentRange)
+        Else
+            currentRange = Nothing ' Réinitialiser pour recommencer depuis le début
+            MessageBox.Show("Aucune autre occurrence trouvée dans la plage sélectionnée.")
+        End If
+    End Sub
 
     Private Sub Refresh_Click_1(sender As Object, e As EventArgs) Handles FindRefs.Click
         ListView1.Items.Clear()
@@ -307,4 +418,6 @@ Public Class MyUserControl
         End If
 
     End Sub
+
+
 End Class

@@ -24,7 +24,7 @@
     <ProjectGuid>{C8F351BB-9409-41C3-A381-FC34D7051342}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>PatentToolV1._0</RootNamespace>
-    <AssemblyName>PatentToolV1.7</AssemblyName>
+    <AssemblyName>PatentToolV1.8</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40,UseOfficeInterop</DefineConstants>
     <StartupObject>
@@ -98,7 +98,7 @@
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>PatentToolV1.7.xml</DocumentationFile>
+    <DocumentationFile>PatentToolV1.8.xml</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -127,7 +127,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>PatentToolV1.7.xml</DocumentationFile>
+    <DocumentationFile>PatentToolV1.8.xml</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>

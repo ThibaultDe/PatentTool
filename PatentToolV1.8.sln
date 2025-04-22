@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PatentToolV1.7", "PatentToolV1.7.vbproj", "{C8F351BB-9409-41C3-A381-FC34D7051342}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PatentToolV1.8", "PatentToolV1.8.vbproj", "{C8F351BB-9409-41C3-A381-FC34D7051342}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

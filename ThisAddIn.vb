@@ -34,12 +34,14 @@ Public Class ThisAddIn
     End Function
 
     Public Function ClearDuplicates(ByRef Numrefs As Object) As Object
+
         For Each Key In Numrefs.Keys
             Dim RefArray = Numrefs(Key)
             Dim TempList As New List(Of Object)
 
             For i = UBound(RefArray) To LBound(RefArray) Step -1
                 Dim Ref1 = RefArray(i).ToString()
+                Debug.Print(Ref1)
                 Dim IsDuplicate As Boolean = False
                 For j = UBound(RefArray) To LBound(RefArray) Step -1
                     If i <> j Then
@@ -137,7 +139,6 @@ Public Class ThisAddIn
             ExeptionArray = New String() {"figure", "fig", "figs", "figures", "and", "or", "about", "approximately", "less", "example", "of", "than", "to", "between", "=", "+", "-", "{", "[", ";", ",", "."}
             DeterminantsArray = New String() {",", ";", "the", "a", "an", "this", "that", "these", "those", "his", "her", "its", "of", "their", "my", "your", "our", "some", "any", "each", "every", "many", "several", "few", "more", "less", "most", "same", "other", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "twenty", "hundred", "thousand", "in", "on", "at", "with", "by", "for", "to", "from", "over", "under", "near", "between", "among", "through", "without", "before", "after", "about", "around", "behind", "above", "below", "next to", "beyond", "beside", "said"}
         ElseIf Language = "fr" Then
-            Debug.Print("Déterminant Fr")
             ExeptionArray = New String() {"figure", "fig", "figs", "figures", "et", "ou", "environ", "d'environ", "moins", "exemple", "de", "que", "entre", "à", "=", "+", "-", "{", "[", ";", ",", "."}
             DeterminantsArray = New String() {",", ";", "le", "la", "au", "aux", "l", "les", "ce", "cette", "ces", "son", "sa", "ses", "leur", "leurs", "un", "une", "qu'un", "qu'une", "d'une", "d'un", "du", "des", "et", "chaque", "même", "mêmes", "autre", "autres", "plusieurs", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "vingt"}
         End If
@@ -209,7 +210,7 @@ Public Class ThisAddIn
         NumRefs = NumDict
 
 
-        'ClearDuplicates(NumRefs) 'Retire les doucblons
+        ClearDuplicates(NumRefs) 'Retire les doucblons
     End Function
 
 
